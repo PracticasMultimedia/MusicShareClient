@@ -90,13 +90,13 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
                     if (me.getClickCount() == 2) {
                         if (fileList.getSelectedRow() == 0) {
-                            doCD("..");
+                            changeDirectory("..");
                         } else if (rowName.endsWith("/")) {
                             //ABRIR LA CARPETA!
-                            doCD(rowName);
+                            changeDirectory(rowName);
                         } else if (rowName.endsWith(".mp3")) {
                             //REPRODUCIR MÚSICA!
-                            doPlay(rowName);
+                            play(rowName);
                         }
                     }
                 }
@@ -120,7 +120,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 else {
                     if (me.getClickCount() == 2) {
                         //REPRODUCIR MÚSICA!
-                        PlayFromMusic(musicList.getSelectedRow());
+                        playFromMusic(musicList.getSelectedRow());
                     }
                 }
             }
@@ -143,7 +143,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 else {
                     if (me.getClickCount() == 2) {
                         //REPRODUCIR MÚSICA!
-                        PlayFromRepr(reprList.getSelectedRow());
+                        playFromRepr(reprList.getSelectedRow());
                     }
                 }
             }
@@ -217,9 +217,9 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         maddMusic = new javax.swing.JButton();
         mplayMusic = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        playButton = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         info = new javax.swing.JLabel();
 
@@ -330,7 +330,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             .addGroup(manConnectPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(manConnectPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(serverIP)
+                    .addComponent(serverIP, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, manConnectPaneLayout.createSequentialGroup()
                         .addGap(0, 273, Short.MAX_VALUE)
                         .addComponent(conect))
@@ -528,7 +528,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             .addGroup(reprLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reprLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(repeat)
@@ -540,7 +540,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reprLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(repeat)
                     .addComponent(random)))
@@ -588,13 +588,13 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             filesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(filesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                 .addContainerGap())
         );
         filesLayout.setVerticalGroup(
             filesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(filesLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -659,7 +659,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addGroup(musicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, musicLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 143, Short.MAX_VALUE)
                         .addComponent(mplayMusic)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(maddMusic)))
@@ -668,7 +668,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         musicLayout.setVerticalGroup(
             musicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(musicLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(musicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maddMusic)
@@ -678,23 +678,38 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         music.setBounds(0, 0, 409, 357);
         mainContainer.add(music, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next.png"))); // NOI18N
-        jButton4.setText("Siguiente");
-        jButton4.setToolTipText("Reproduce la siguiente canción");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next.png"))); // NOI18N
+        nextButton.setText("Siguiente");
+        nextButton.setToolTipText("Reproduce la siguiente canción");
+        nextButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        nextButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/prev.png"))); // NOI18N
         jButton5.setText("Anterior");
         jButton5.setToolTipText("Reproduce la canción anterior");
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/play.png"))); // NOI18N
-        jButton6.setText("Play");
-        jButton6.setToolTipText("Reproduce la canción seleccionada");
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/play.png"))); // NOI18N
+        playButton.setText("Play");
+        playButton.setToolTipText("Reproduce la canción seleccionada");
+        playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        playButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
         jButton7.setText("Stop");
@@ -710,11 +725,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(playButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(nextButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -723,9 +738,9 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7)
-                    .addComponent(jButton6)
+                    .addComponent(playButton)
                     .addComponent(jButton5)
-                    .addComponent(jButton4))
+                    .addComponent(nextButton))
                 .addContainerGap())
         );
 
@@ -885,7 +900,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     //====================================
     private void RMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RMplayActionPerformed
         // TODO add your handling code here:
-        PlayFromRepr(reprList.getSelectedRow());
+        playFromRepr(reprList.getSelectedRow());
     }//GEN-LAST:event_RMplayActionPerformed
 
     private void RMdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RMdeleteActionPerformed
@@ -916,7 +931,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
     private void MMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MMplayActionPerformed
         // TODO add your handling code here:
-        PlayFromMusic(musicList.getSelectedRow());
+        playFromMusic(musicList.getSelectedRow());
     }//GEN-LAST:event_MMplayActionPerformed
 
     //====================================
@@ -924,17 +939,17 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     //====================================
     private void FMupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FMupActionPerformed
         // TODO add your handling code here:
-        doCD("..");
+        changeDirectory("..");
     }//GEN-LAST:event_FMupActionPerformed
 
     private void FMabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FMabrirActionPerformed
         // TODO add your handling code here:
-        doCD(fileList.getValueAt(fileList.getSelectedRow(), 0).toString());
+        changeDirectory(fileList.getValueAt(fileList.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_FMabrirActionPerformed
 
     private void FMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FMplayActionPerformed
         // TODO add your handling code here:
-        doPlay(fileList.getValueAt(fileList.getSelectedRow(), 0).toString());
+        play(fileList.getValueAt(fileList.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_FMplayActionPerformed
 
     private void FMaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FMaddActionPerformed
@@ -959,7 +974,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = musicList.getSelectedRow();
         if (index > 0) {
-            PlayFromMusic(index);
+            playFromMusic(index);
         }
     }//GEN-LAST:event_mplayMusicActionPerformed
 
@@ -995,6 +1010,43 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         con.shuffle(random.isSelected());
     }//GEN-LAST:event_randomActionPerformed
 
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+        // TODO add your handling code here:
+        int song = -1;
+        if (repr.isVisible()) {
+            song = reprList.getSelectedRow();
+            if (song != -1) {
+                con.playFromRepr(song);
+            } else {
+                con.next();
+            }
+        } else if (music.isVisible()) {
+            song = musicList.getSelectedRow();
+            if (song != -1) {
+                con.playFromMusic(song);
+            } else {
+                con.next();
+            }
+        } else if (files.isVisible()) {
+            song = fileList.getSelectedRow();
+            if (song != -1) {
+                con.play(reprList.getValueAt(song, 0).toString());
+            } else {
+                con.next();
+            }
+        }
+    }//GEN-LAST:event_playButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        // TODO add your handling code here:
+        con.next();
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        con.prev();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void insertOnTable(javax.swing.JTable table, Object o) {
         ((DefaultTableModel) table.getModel()).addRow(new Object[]{o});
     }
@@ -1010,7 +1062,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         info.setText("Reproduciendo " + song);
     }
 
-    private void doCD(String folder) {
+    private void changeDirectory(String folder) {
         if (con.cd(folder)) {
             dirFiles();
         } else {
@@ -1032,77 +1084,28 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         ((DefaultTableModel) fileList.getModel()).fireTableDataChanged();
     }
 
-    private void doPlay(String song) {
-        try {
-            con.play(song);
-        } catch (IOException ex) {
-            info.setText("No se ha podido reproducir la canción.");
-        }
+    private void play(String song) {
+        con.play(song);
+        info.setText("No se ha podido reproducir la canción.");
     }
 
-    private void PlayFromMusic(int song) {
-        try {
-            con.playFromMusic(song);
-        } catch (IOException ex) {
-            info.setText("No se ha podido reproducir la canción.");
-        }
+    private void playFromMusic(int song) {
+        con.playFromMusic(song);
+        info.setText("No se ha podido reproducir la canción.");
     }
 
-    private void PlayFromRepr(int song) {
-        try {
-            con.playFromRepr(song);
-        } catch (IOException ex) {
-            info.setText("No se ha podido reproducir la canción.");
-        }
+    private void playFromRepr(int song) {
+        con.playFromRepr(song);
+        info.setText("No se ha podido reproducir la canción.");
     }
 
     public void setMusicList(ArrayList<String> _m) {
-
         for (String s : _m) {
             insertOnTable(musicList, s.substring(s.lastIndexOf("\\") + 1));
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cliente_Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cliente_Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cliente_Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cliente_Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(
-                            UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(Cliente_Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                new Cliente_Interfaz(null);
-            }
-        });
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame ConnectFrame;
     private javax.swing.JMenuItem FMabrir;
@@ -1124,9 +1127,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel files;
     private javax.swing.JButton findServer;
     private javax.swing.JLabel info;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1143,6 +1144,8 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel music;
     private javax.swing.JTable musicList;
     private javax.swing.JPopupMenu musicMenu;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton playButton;
     private javax.swing.JToggleButton random;
     private javax.swing.JToggleButton repeat;
     private javax.swing.JPanel repr;

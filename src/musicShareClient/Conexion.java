@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.SourceDataLine;
 
 /**
@@ -154,41 +156,42 @@ public class Conexion {
         return true;
     }
 
-    public boolean play(String file) throws IOException {
+    public boolean play(String file) {
+        try {
+            out.write(("play \"" + file + "\"\n").getBytes(Charset.forName("UTF-8")));
 
-        out.write(("play \"" + file + "\"\n").getBytes(Charset.forName("UTF-8")));
-
-        if (entrada.readLine().equals(OK)) {
-
-            return true;
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (IOException ex) {
         }
-
         return false;
 
 
     }
 
-    public boolean playFromMusic(int file) throws IOException {
+    public boolean playFromMusic(int file) {
+        try {
+            out.write(("play_fm \"" + musicList.get(file) + "\"\n").getBytes(Charset.forName("UTF-8")));
 
-        out.write(("play_fm \"" + musicList.get(file) + "\"\n").getBytes(Charset.forName("UTF-8")));
-
-        if (entrada.readLine().equals(OK)) {
-
-            return true;
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (IOException ex) {
         }
 
         return false;
 
-
     }
 
-    public boolean playFromRepr(int file) throws IOException {
+    public boolean playFromRepr(int file) {
+        try {
+            out.write(("play_fr \"" + file + "\"\n").getBytes(Charset.forName("UTF-8")));
 
-        out.write(("play_fr \"" + file + "\"\n").getBytes(Charset.forName("UTF-8")));
-
-        if (entrada.readLine().equals(OK)) {
-
-            return true;
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (IOException ex) {
         }
 
         return false;
@@ -205,15 +208,13 @@ public class Conexion {
         }
         try {
             out.write(("repeat \"" + s + "\"\n").getBytes(Charset.forName("UTF-8")));
-            if (entrada.readLine().equals(OK)) {
 
+            if (entrada.readLine().equals(OK)) {
                 return true;
             }
-
-            return false;
         } catch (IOException ex) {
-            return false;
         }
+        return false;
 
     }
 
@@ -226,16 +227,13 @@ public class Conexion {
         }
         try {
             out.write(("shuffle \"" + s + "\"\n").getBytes(Charset.forName("UTF-8")));
-            if (entrada.readLine().equals(OK)) {
 
+            if (entrada.readLine().equals(OK)) {
                 return true;
             }
-
-            return false;
         } catch (IOException ex) {
-            return false;
         }
-
+        return false;
     }
 
     public void stop() throws IOException {
@@ -306,4 +304,9 @@ public class Conexion {
         conectar(host, gui.getEcualizador());
         gui.showInterface();
     }
+
+    public void next() {
+    }
+    
+    public void prev(){};
 }
