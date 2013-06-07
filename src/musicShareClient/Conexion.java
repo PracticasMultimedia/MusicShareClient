@@ -292,19 +292,6 @@ public class Conexion {
         return false;
     }
 
-    public void initUDPBroadcast() {
-        if (udp == null) {
-            udp = new UDPBroadcast(this);
-            udp.start();
-        }
-    }
-
-    public void setHost(String host) throws IOException {
-        System.out.println("servidor encontrado. iniciando app" + host);
-        conectar(host, gui.getEcualizador());
-        gui.showInterface();
-    }
-
     public void next() {
     }
     

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import musicShareClient.UDPBroadcast;
 
 /**
  *
@@ -197,6 +198,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         autConnectPane = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         findServer = new javax.swing.JButton();
+        autInfo = new javax.swing.JLabel();
         manual = new javax.swing.JToggleButton();
         automatic = new javax.swing.JToggleButton();
         showRepr = new javax.swing.JToggleButton();
@@ -378,7 +380,8 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, autConnectPaneLayout.createSequentialGroup()
                         .addGap(0, 243, Short.MAX_VALUE)
-                        .addComponent(findServer)))
+                        .addComponent(findServer))
+                    .addComponent(autInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         autConnectPaneLayout.setVerticalGroup(
@@ -386,7 +389,9 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             .addGroup(autConnectPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addComponent(autInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(findServer)
                 .addContainerGap())
         );
@@ -822,11 +827,48 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////  Buscar Servidor Automáticamente.  ///////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    
+    /**
+     * Buscaremos un servidor iniciando una inundación UDP por la red local. El
+     * proceso de inundación durará, como mucho, un minuto. Si transcurrido este
+     * tiempo, no se localiza un servidor disponible, se dará la búsqueda cómo
+     * fallida, y se avisará al usuario.
+     */
     private void findServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findServerActionPerformed
         // TODO add your handling code here:
-        con.initUDPBroadcast();
+        autInfo.setText("Buscando servidor. Esto puede tomar un par de minutos.");
+        findServer.setEnabled(false);
+        findServer.setText("Buscando...");
+
+        UDPBroadcast udp = new UDPBroadcast(this);
+        udp.start();
     }//GEN-LAST:event_findServerActionPerformed
 
+    /**
+     * Establecemos la dirección IP encontrada en la inundación UDP para iniciar
+     * la conexión. Esta función es, pues, usada solamente por la clase
+     * UDPBroadcast para notificar a la interfaz de la dirección IP encontrada
+     * en el proceso de búsqueda. Se nos mandará la IP encontrada en caso de que
+     * la búsqueda sea satisfactoria, y NULL en caso de que haya sido fallida.
+     */
+    public void setIP(String ip) {
+        if (ip != null) {
+            autInfo.setText("Conectando...");
+            findServer.setText("Conectando...");
+            serverIP.setText(ip);
+            conect.doClick();
+        } else {
+            autInfo.setText("<html>Imposible contactar con el servidor.<br>"
+                    + "Por favor, prueba dentro de unos momentos.</html>");
+            findServer.setEnabled(true);
+            findServer.setText("Buscar servidor");
+        }
+    }
+
+    
     private void automaticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_automaticActionPerformed
         // TODO add your handling code here:
         manConnectPane.setVisible(false);
@@ -1104,8 +1146,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             insertOnTable(musicList, s.substring(s.lastIndexOf("\\") + 1));
         }
     }
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame ConnectFrame;
     private javax.swing.JMenuItem FMabrir;
@@ -1117,6 +1157,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem RMdelete;
     private javax.swing.JMenuItem RMplay;
     private javax.swing.JPanel autConnectPane;
+    private javax.swing.JLabel autInfo;
     private javax.swing.JToggleButton automatic;
     private javax.swing.JButton conect;
     private javax.swing.ButtonGroup conection_buttons;
