@@ -9,6 +9,8 @@ import musicShareClient.Ecualizador;
 import com.sun.org.apache.xml.internal.utils.URI;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -21,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -34,6 +37,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
     Conexion con;
     Ecualizador ec;
+    Timer timer;
 
     /**
      * Creates new form Client_Gui
@@ -45,6 +49,13 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         Ecualizador_Interfaz aux = new Ecualizador_Interfaz(this, false);
         aux.setVisible(true);
         ec = new Ecualizador(aux);
+
+        timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                info.setText("");
+            }
+        });
 
         initInterface();
         repr.setVisible(false);
@@ -224,7 +235,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         nextButton = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         playButton = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        stopButton = new javax.swing.JButton();
         info = new javax.swing.JLabel();
 
         RMplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/play_16.png"))); // NOI18N
@@ -341,7 +352,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addGroup(manConnectPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(serverIP, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, manConnectPaneLayout.createSequentialGroup()
-                        .addGap(0, 273, Short.MAX_VALUE)
+                        .addGap(0, 281, Short.MAX_VALUE)
                         .addComponent(conect))
                     .addGroup(manConnectPaneLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -473,7 +484,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
         views.add(showMusic);
         showMusic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/music.png"))); // NOI18N
-        showMusic.setToolTipText("");
+        showMusic.setToolTipText("Mostrar música del servidor");
         showMusic.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/music_prssd.png"))); // NOI18N
         showMusic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -484,6 +495,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         views.add(showFiles);
         showFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder.png"))); // NOI18N
         showFiles.setSelected(true);
+        showFiles.setToolTipText("Mostrar lista de ficheros");
         showFiles.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_prssd.png"))); // NOI18N
         showFiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -723,11 +735,16 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
-        jButton7.setText("Stop");
-        jButton7.setToolTipText("Detiene la reproducción de música");
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
+        stopButton.setText("Stop");
+        stopButton.setToolTipText("Detiene la reproducción de música");
+        stopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        stopButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -739,7 +756,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
+                .addComponent(stopButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nextButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -749,7 +766,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton7)
+                    .addComponent(stopButton)
                     .addComponent(playButton)
                     .addComponent(jButton5)
                     .addComponent(nextButton))
@@ -800,7 +817,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////  Navegación entre pestañas ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-    
     private void showFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showFilesActionPerformed
         // TODO add your handling code here:
         mainContainer.getComponent(0).setVisible(false);
@@ -1000,11 +1016,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             return false;
         }
     }
-    
+
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////  Acciones de los meús emergentes.  ///////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-    
     private void RMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RMplayActionPerformed
         // TODO add your handling code here:
         playFromRepr(reprList.getSelectedRow());
@@ -1031,6 +1046,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             info.setForeground(Color.red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
+        timer.restart();
     }//GEN-LAST:event_MMaddActionPerformed
 
     private void MMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MMplayActionPerformed
@@ -1093,22 +1109,29 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 info.setText("Se ha añadido " + song + " a la lista de reproducción.");
             } else {
                 info.setForeground(Color.red);
-                info.setText("No se ha podido añadir la canción. Intentalo de nuevo en un momento...");
+                info.setText(con.getMessage());
             }
         } catch (IOException ex) {
             info.setForeground(Color.red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
+        timer.restart();
     }//GEN-LAST:event_maddMusicActionPerformed
 
     private void repeatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repeatActionPerformed
         // TODO add your handling code here:
-        con.repeat(repeat.isSelected());
+        if(!con.repeat(repeat.isSelected())){
+            info.setText(con.getMessage());
+            timer.restart();
+        }
     }//GEN-LAST:event_repeatActionPerformed
 
     private void randomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomActionPerformed
         // TODO add your handling code here:
-        con.shuffle(random.isSelected());
+        if(!con.shuffle(random.isSelected())){
+            info.setText(con.getMessage());
+            timer.restart();
+        }
     }//GEN-LAST:event_randomActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
@@ -1152,6 +1175,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_serverIPActionPerformed
 
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        // TODO add your handling code here:
+        con.stopMusic();
+    }//GEN-LAST:event_stopButtonActionPerformed
+
     private void insertOnTable(javax.swing.JTable table, Object o) {
         ((DefaultTableModel) table.getModel()).addRow(new Object[]{o});
     }
@@ -1165,20 +1193,22 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     public void setSong(String song) {
         info.setForeground(Color.blue);
         info.setText("Reproduciendo " + song);
+        timer.restart();
     }
 
     private void changeDirectory(String folder) {
         if (con.cd(folder)) {
             dirFiles();
         } else {
-            info.setText("Error al moverse de directorio. Intentalo más tarde.");
+            info.setText(con.getMessage());
         }
     }
 
     private void dirFiles() {
         ArrayList<String> files = con.dir();
         if (files == null) {
-            info.setText("Error al cargar los archivos de la carpeta.");
+            info.setText(con.getMessage());
+            timer.restart();
             return;
         }
         clearTable(fileList);
@@ -1190,18 +1220,30 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     }
 
     private void play(String song) {
-        con.play(song);
-        info.setText("No se ha podido reproducir la canción.");
+        if (!con.play(song)) {
+            info.setText(con.getMessage());
+        } else {
+            info.setText("Reproduciendo " + song);
+        }
+        timer.restart();
     }
 
     private void playFromMusic(int song) {
-        con.playFromMusic(song);
-        info.setText("No se ha podido reproducir la canción.");
+        if (!con.playFromMusic(song)) {
+            info.setText(con.getMessage());
+        } else {
+            info.setText("Reproduciendo " + musicList.getValueAt(song, 0).toString());
+        }
+        timer.restart();
     }
 
     private void playFromRepr(int song) {
-        con.playFromRepr(song);
-        info.setText("No se ha podido reproducir la canción.");
+        if (!con.playFromRepr(song)) {
+            info.setText(con.getMessage());
+        } else {
+            info.setText("Reproduciendo " + reprList.getValueAt(song, 0).toString());
+        }
+        timer.restart();
     }
 
     public void setMusicList(ArrayList<String> _m) {
@@ -1232,7 +1274,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton findServer;
     private javax.swing.JLabel info;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -1259,6 +1300,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JToggleButton showFiles;
     private javax.swing.JToggleButton showMusic;
     private javax.swing.JToggleButton showRepr;
+    private javax.swing.JButton stopButton;
     private javax.swing.ButtonGroup views;
     // End of variables declaration//GEN-END:variables
 
@@ -1282,6 +1324,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         } catch (IOException ex) {
             info.setText("No se ha podido eliminar la canción de la lista...");
         }
+        timer.restart();
     }
 
     public Ecualizador getEcualizador() {

@@ -40,6 +40,7 @@ public class Conexion {
     Cliente_Interfaz gui;
     ArrayList<String> musicList;
     UDPBroadcast udp;
+    String msg = "";
 
     public void setGui(Cliente_Interfaz gui) {
         this.gui = gui;
@@ -85,6 +86,7 @@ public class Conexion {
 
             return true;
         }
+        msg = "El cliente ya está lanzado";
         return false;
 
     }
@@ -103,13 +105,14 @@ public class Conexion {
                 sc.close();
 
                 conectado = false;
+                return true;
             } catch (IOException ex) {
+                msg = "Hubo un error al desconectar.";
                 return false;
             }
         }
-
-        return true;
-
+        msg = "El cliente no está lanzado";
+        return false;
     }
 
     public ArrayList<String> dir() {
@@ -138,6 +141,7 @@ public class Conexion {
 
             return fich;
         } catch (IOException ex) {
+            msg = "Error al cargar archivos.";
             return null;
         }
     }
@@ -150,10 +154,9 @@ public class Conexion {
                 return true;
             }
         } catch (IOException ex) {
-            return false;
+            msg = "Error al cambiar de directorio.";
         }
-
-        return true;
+        return false;
     }
 
     public boolean play(String file) {
@@ -165,6 +168,7 @@ public class Conexion {
             }
         } catch (IOException ex) {
         }
+        msg = "Error al reproducir " + file + ".";
         return false;
 
 
@@ -179,7 +183,7 @@ public class Conexion {
             }
         } catch (IOException ex) {
         }
-
+        msg = "Error al reproducir archivo.";
         return false;
 
     }
@@ -194,6 +198,7 @@ public class Conexion {
         } catch (IOException ex) {
         }
 
+        msg = "Error al reproducir archivo.";
         return false;
 
 
@@ -214,17 +219,13 @@ public class Conexion {
             }
         } catch (IOException ex) {
         }
+        msg = "No se ha podido cambiar el método de reproducción.";
         return false;
 
     }
 
     public boolean shuffle(boolean rep) {
-        String s;
-        if (rep) {
-            s = "true";
-        } else {
-            s = "false";
-        }
+        String s = rep ? "true" : "false";
         try {
             out.write(("shuffle \"" + s + "\"\n").getBytes(Charset.forName("UTF-8")));
 
@@ -233,6 +234,7 @@ public class Conexion {
             }
         } catch (IOException ex) {
         }
+        msg="No se ha podido cambiar el método de reproducción.";
         return false;
     }
 
@@ -254,6 +256,7 @@ public class Conexion {
         if (entrada.readLine().equals(OK)) {
             return true;
         }
+        msg = "No se ha podido añadir la canción a la lista.";
         return false;
     }
 
@@ -262,6 +265,7 @@ public class Conexion {
         if (entrada.readLine().equals(OK)) {
             return true;
         }
+        msg = "No se ha podido añadir la canción a la lista.";
         return false;
     }
 
@@ -275,7 +279,6 @@ public class Conexion {
     }
 
     public String getConName() {
-
         return conName;
     }
 
@@ -289,19 +292,20 @@ public class Conexion {
         if (entrada.readLine().equals(OK)) {
             return true;
         }
+        msg = "No se ha podido eliminar la canción de la lista.";
         return false;
     }
 
     public boolean next() {
         try {
             out.write("next\n".getBytes(Charset.forName("UTF-8")));
-            
+
             if (entrada.readLine().equals(OK)) {
                 return true;
             }
         } catch (IOException ex) {
         }
-
+        msg = "No se ha podido reproducir la siguiente canción.";
         return false;
     }
 
@@ -313,8 +317,24 @@ public class Conexion {
             }
         } catch (Exception e) {
         }
-        
+        msg = "No se ha podido reproducir la canción anterior.";
         return false;
     }
-;
+
+    public boolean stopMusic() {
+        try {
+            out.write("stop\n".getBytes(Charset.forName("UTF-8")));
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        
+        msg = "No se ha podido detener la reproducción.";
+        return false;
+    }
+    
+    public String getMessage(){
+        return msg;
+    }
 }
