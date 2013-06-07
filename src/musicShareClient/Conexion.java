@@ -292,8 +292,29 @@ public class Conexion {
         return false;
     }
 
-    public void next() {
+    public boolean next() {
+        try {
+            out.write("next\n".getBytes(Charset.forName("UTF-8")));
+            
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (IOException ex) {
+        }
+
+        return false;
     }
-    
-    public void prev(){};
+
+    public boolean prev() {
+        try {
+            out.write("prev\n".getBytes(Charset.forName("UTF-8")));
+            if (entrada.readLine().equals(OK)) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        
+        return false;
+    }
+;
 }
