@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -309,6 +311,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         serverIP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         serverIP.setText("192.168.38.108");
         serverIP.setToolTipText("Escribe la dirección IP del servidor");
+        serverIP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverIPActionPerformed(evt);
+            }
+        });
         serverIP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 serverIPKeyTyped(evt);
@@ -349,9 +356,9 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(serverIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(connInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(conect)
                 .addContainerGap())
         );
@@ -790,6 +797,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////  Navegación entre pestañas ////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    
     private void showFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showFilesActionPerformed
         // TODO add your handling code here:
         mainContainer.getComponent(0).setVisible(false);
@@ -812,16 +823,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_showReprActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
-        //DESCONECTAR EL SERVIDOR!!
+
         if (con.desconectar()) {
-            manual.doClick();
-            connInfo.setText("");
             ConnectFrame.setVisible(true);
-            clearTable(fileList);
-            clearTable(reprList);
-            clearTable(musicList);
             this.setVisible(false);
+            resetDefaultValues();
         } else {
             info.setText("No se ha podido cerrar la conexión con el servidor...");
         }
@@ -830,7 +836,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////  Buscar Servidor Automáticamente.  ///////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-    
     /**
      * Buscaremos un servidor iniciando una inundación UDP por la red local. El
      * proceso de inundación durará, como mucho, un minuto. Si transcurrido este
@@ -859,6 +864,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             autInfo.setText("Conectando...");
             findServer.setText("Conectando...");
             serverIP.setText(ip);
+            System.out.println(ip);
             conect.doClick();
         } else {
             autInfo.setText("<html>Imposible contactar con el servidor.<br>"
@@ -868,7 +874,27 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         }
     }
 
-    
+    /**
+     * Establece el texto de los campos de información y los botones a sus
+     * valores por defecto, quedándose así la aplicación como recién iniciada.
+     */
+    private void resetDefaultValues() {
+        //Vaciamos las tablas
+        clearTable(fileList);
+        clearTable(reprList);
+        clearTable(musicList);
+
+        //Ocultamos la información anterior
+        autInfo.setText("");
+        connInfo.setText("");
+
+        //Habilitamos los botones y establecemos su texto
+        conect.setText("Conectar");
+        conect.setEnabled(true);
+        findServer.setText("Buscar servidor");
+        findServer.setEnabled(true);
+    }
+
     private void automaticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_automaticActionPerformed
         // TODO add your handling code here:
         manConnectPane.setVisible(false);
@@ -894,19 +920,50 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
     private void conectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectActionPerformed
         // TODO add your handling code here:
-        //Hacemos una comprobacion rapida de la ip.
-        connInfo.setText("");
+
+        conect.setEnabled(false);
+        conect.setText("Conectando...");
+
+        findServer.setEnabled(false);
+        findServer.setText("Conectando...");
+
+        ConnectFrame.repaint();
+
+        boolean suscess = connectWithServer();
+
+        if (!suscess) {
+
+            conect.setEnabled(true);
+            conect.setText("Conectar");
+
+            findServer.setEnabled(true);
+            findServer.setText("Buscar servidor");
+        }
+    }//GEN-LAST:event_conectActionPerformed
+
+    /**
+     * Realiza todas las comprobaciones necesarias para realizar una conexión
+     * segura con el servidor, e intenta conectar con él. En caso de que ocurra
+     * algún error, se devolverá FALSE y se alertará al usuario por la interfaz.
+     *
+     * @return TRUE si todo va bien, FALSE en caso de que haya algún error.
+     */
+    private boolean connectWithServer() {
+        //Hacemos una comprobacion rápida de la ip.
+        JLabel label = autConnectPane.isVisible() ? autInfo : connInfo;
+        label.setText("Comprobando...");
+
         if (URI.isWellFormedAddress(serverIP.getText())) {
             try {
                 //Comprobamos que la direccion y el puerto son validos
                 Inet4Address.getByName(serverIP.getText());
             } catch (UnknownHostException ex) {
-                connInfo.setText("La IP introducida no es correcta.");
+                label.setText("La dirección IP no es correcta.");
                 serverIP.setForeground(Color.red);
-                return;
+                return false;
             }
             //Avisamos al usuario de que vamos a intentar conectarnos
-            connInfo.setText("Intentando realizar la conexión...");
+            label.setText("Intentando realizar la conexión...");
             //Intentamos conectarnos
             try {
                 if (!con.conectar(serverIP.getText(), ec)) {
@@ -917,8 +974,12 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                             + "<li>El servidor no ha podido responder</li>"
                             + "<li>El servidor está escuchando por otro puerto</li></ul>"
                             + "Por favor, intentelo más tarde...</html>", "Error al realizar la conexión.", JOptionPane.OK_OPTION);
+                    label.setText("Error al conectar con el servidor.");
+                    return false;
                 }
                 showInterface();
+                return true;
+
             } catch (IOException ex) {
                 //Si ocurre alguna excepcion, avisamos al usuario.
                 JOptionPane.showMessageDialog(this,
@@ -928,18 +989,22 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                         + "<li>El servidor no ha podido responder</li>"
                         + "<li>El servidor está escuchando por otro puerto</li></ul>"
                         + "Por favor, intentelo más tarde...</html>", "Error al realizar la conexión.", JOptionPane.OK_OPTION);
+                label.setText("Error al conectar con el servidor.");
+                return false;
             }
 
         } else {
             //Si la ip no es valida, avisamos al usuario
             serverIP.setForeground(Color.red);
-            connInfo.setText("La IP introducida no es válida.");
+            label.setText("La dirección IP no es válida.");
+            return false;
         }
-    }//GEN-LAST:event_conectActionPerformed
-
-    //====================================
-    //  Acciones del menú de reproducción
-    //====================================
+    }
+    
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////  Acciones de los meús emergentes.  ///////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    
     private void RMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RMplayActionPerformed
         // TODO add your handling code here:
         playFromRepr(reprList.getSelectedRow());
@@ -950,9 +1015,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         deleteFomRepr(reprList.getSelectedRow());
     }//GEN-LAST:event_RMdeleteActionPerformed
 
-    //====================================
-    //  Acciones del menú de música
-    //====================================
     private void MMaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MMaddActionPerformed
         try {
             // TODO add your handling code here:
@@ -976,9 +1038,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         playFromMusic(musicList.getSelectedRow());
     }//GEN-LAST:event_MMplayActionPerformed
 
-    //====================================
-    //  Acciones del menú de archivos
-    //====================================
     private void FMupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FMupActionPerformed
         // TODO add your handling code here:
         changeDirectory("..");
@@ -1088,6 +1147,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         con.prev();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void serverIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverIPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverIPActionPerformed
 
     private void insertOnTable(javax.swing.JTable table, Object o) {
         ((DefaultTableModel) table.getModel()).addRow(new Object[]{o});

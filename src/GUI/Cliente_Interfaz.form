@@ -214,9 +214,9 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="serverIP" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="connInfo" min="-2" pref="72" max="-2" attributes="0"/>
                           <EmptySpace pref="63" max="32767" attributes="0"/>
+                          <Component id="connInfo" min="-2" pref="72" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="conect" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -238,6 +238,7 @@
                     <Property name="toolTipText" type="java.lang.String" value="Escribe la direcci&#xf3;n IP del servidor"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serverIPActionPerformed"/>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="serverIPKeyTyped"/>
                   </Events>
                 </Component>
