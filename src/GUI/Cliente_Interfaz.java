@@ -17,15 +17,10 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import musicShareClient.UDPBroadcast;
 
@@ -38,6 +33,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     Conexion con;
     Ecualizador ec;
     Timer timer;
+    Color red, green, blue;
 
     /**
      * Creates new form Client_Gui
@@ -56,6 +52,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 info.setText("");
             }
         });
+
+        red = new Color(223, 62, 62);
+        blue = new Color(28, 83, 128);
+        green = new Color(24, 182, 24);
 
         initInterface();
         repr.setVisible(false);
@@ -233,7 +233,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         mplayMusic = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
         playButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         info = new javax.swing.JLabel();
@@ -322,11 +322,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         serverIP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         serverIP.setText("192.168.38.108");
         serverIP.setToolTipText("Escribe la dirección IP del servidor");
-        serverIP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serverIPActionPerformed(evt);
-            }
-        });
         serverIP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 serverIPKeyTyped(evt);
@@ -350,7 +345,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             .addGroup(manConnectPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(manConnectPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(serverIP, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                    .addComponent(serverIP, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, manConnectPaneLayout.createSequentialGroup()
                         .addGap(0, 281, Short.MAX_VALUE)
                         .addComponent(conect))
@@ -713,14 +708,14 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/prev.png"))); // NOI18N
-        jButton5.setText("Anterior");
-        jButton5.setToolTipText("Reproduce la canción anterior");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        prevButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/prev.png"))); // NOI18N
+        prevButton.setText("Anterior");
+        prevButton.setToolTipText("Reproduce la canción anterior");
+        prevButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        prevButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                prevButtonActionPerformed(evt);
             }
         });
 
@@ -752,7 +747,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(jButton5)
+                .addComponent(prevButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -768,7 +763,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(stopButton)
                     .addComponent(playButton)
-                    .addComponent(jButton5)
+                    .addComponent(prevButton)
                     .addComponent(nextButton))
                 .addContainerGap())
         );
@@ -1036,14 +1031,14 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             String song = musicList.getValueAt(musicList.getSelectedRow(), 0).toString();
             if (con.addSongtoListFromMusic(musicList.getSelectedRow())) {
                 insertOnTable(reprList, song);
-                info.setForeground(Color.green);
+                info.setForeground(green);
                 info.setText("Se ha añadido " + song + " a la lista de reproducción.");
             } else {
-                info.setForeground(Color.red);
+                info.setForeground(red);
                 info.setText("No se ha podido añadir la canción. Intentalo de nuevo en un momento...");
             }
         } catch (IOException ex) {
-            info.setForeground(Color.red);
+            info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
         timer.restart();
@@ -1075,18 +1070,24 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             String song = fileList.getValueAt(fileList.getSelectedRow(), 0).toString();
             if (con.addSongtoList(song)) {
                 insertOnTable(reprList, song);
-                info.setForeground(Color.green);
+                info.setForeground(green);
                 info.setText("Se ha añadido " + song + " a la lista de reproducción.");
             } else {
-                info.setForeground(Color.red);
+                info.setForeground(red);
                 info.setText("No se ha podido añadir la canción. Intentalo de nuevo en un momento...");
             }
         } catch (IOException ex) {
-            info.setForeground(Color.red);
+            info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
     }//GEN-LAST:event_FMaddActionPerformed
 
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////  Acciones de la pestaña Música  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Botón "Play". Reproduce la canción seleccionada en la lista de música.
+     */
     private void mplayMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mplayMusicActionPerformed
         // TODO add your handling code here:
         int index = musicList.getSelectedRow();
@@ -1095,6 +1096,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mplayMusicActionPerformed
 
+    /**
+     * Botón "Añadir". Añade la canción seleccionada de la lista de música a la
+     * lista de reproducción.
+     */
     private void maddMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maddMusicActionPerformed
         // TODO add your handling code here:
         int index = musicList.getSelectedRow();
@@ -1105,35 +1110,57 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             String song = musicList.getValueAt(index, 0).toString();
             if (con.addSongtoListFromMusic(index)) {
                 insertOnTable(reprList, song);
-                info.setForeground(Color.green);
+                info.setForeground(green);
                 info.setText("Se ha añadido " + song + " a la lista de reproducción.");
             } else {
-                info.setForeground(Color.red);
+                info.setForeground(red);
                 info.setText(con.getMessage());
             }
         } catch (IOException ex) {
-            info.setForeground(Color.red);
+            info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
         timer.restart();
     }//GEN-LAST:event_maddMusicActionPerformed
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////  Acciones de la Lista de Reproducción  /////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Cambia la forma de repetición de las canciones. Si está seleccionado, una
+     * vez que se reproduzca la última canción, empezará de nuevo la primera. Si
+     * no está seleccionado, al sonar la última canción, se detendrá la
+     * reproducción.
+     */
     private void repeatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repeatActionPerformed
         // TODO add your handling code here:
-        if(!con.repeat(repeat.isSelected())){
+        if (!con.repeat(repeat.isSelected())) {
             info.setText(con.getMessage());
             timer.restart();
         }
     }//GEN-LAST:event_repeatActionPerformed
 
+    /**
+     * Activa o desactiva la reproducción aleatoria de canciones.
+     *
+     * @param evt
+     */
     private void randomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomActionPerformed
         // TODO add your handling code here:
-        if(!con.shuffle(random.isSelected())){
+        if (!con.shuffle(random.isSelected())) {
             info.setText(con.getMessage());
             timer.restart();
         }
     }//GEN-LAST:event_randomActionPerformed
 
+////////////////////////////////////////////////////////////////////////////////
+//////////////////  Acciones de los controles principales  /////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Este botón reproducirá la canción que esté seleccionada en cualquiera de
+     * las pestañas. Si no hay ninguna seleccionada, iniciará la lista de
+     * reproducción, en caso de que haya alguna canción introducida.
+     */
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         // TODO add your handling code here:
         int song = -1;
@@ -1141,61 +1168,78 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             song = reprList.getSelectedRow();
             if (song != -1) {
                 con.playFromRepr(song);
-            } else {
-                con.next();
             }
         } else if (music.isVisible()) {
             song = musicList.getSelectedRow();
             if (song != -1) {
                 con.playFromMusic(song);
-            } else {
-                con.next();
             }
         } else if (files.isVisible()) {
             song = fileList.getSelectedRow();
             if (song != -1) {
                 con.play(reprList.getValueAt(song, 0).toString());
-            } else {
-                con.next();
             }
+        }
+        if (song == -1) {
+            con.next();
         }
     }//GEN-LAST:event_playButtonActionPerformed
 
+    /**
+     * Reproduce la siguiente canción de la lista de reproducción.
+     */
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         con.next();
     }//GEN-LAST:event_nextButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    /**
+     * Reproduce la canción anterior de la lista de reproducción.
+     */
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         // TODO add your handling code here:
         con.prev();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_prevButtonActionPerformed
 
-    private void serverIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverIPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_serverIPActionPerformed
-
+    /**
+     * Detiene la reproducción de canciones.
+     */
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         // TODO add your handling code here:
         con.stopMusic();
     }//GEN-LAST:event_stopButtonActionPerformed
 
-    private void insertOnTable(javax.swing.JTable table, Object o) {
-        ((DefaultTableModel) table.getModel()).addRow(new Object[]{o});
+////////////////////////////////////////////////////////////////////////////////
+//////////////////  Funciones adicionales implementadas  ///////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Introduce el objeto 'object' en la tabla que se le pasa.
+     *
+     * @param table Tabla en la que insertar el objeto.
+     * @param object Objeto a insertar en la tabla.
+     */
+    private void insertOnTable(javax.swing.JTable table, Object object) {
+        ((DefaultTableModel) table.getModel()).addRow(new Object[]{object});
     }
 
+    /**
+     * Vacía la tabla que se le pasa como parámetro.
+     *
+     * @param table Tabla que será vaciada.
+     */
     private void clearTable(javax.swing.JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.getDataVector().clear();
         model.fireTableDataChanged();
     }
 
-    public void setSong(String song) {
-        info.setForeground(Color.blue);
-        info.setText("Reproduciendo " + song);
-        timer.restart();
-    }
-
+    /**
+     * Cambia el directorio en el servidor. Con esta función podemos movernos
+     * por las carpetas del servidor (siempre que el mismo nos lo permita).
+     *
+     * @param folder Carpeta a la que queremos movernos. ".." si queremos ir a
+     * la carpeta padre.
+     */
     private void changeDirectory(String folder) {
         if (con.cd(folder)) {
             dirFiles();
@@ -1204,21 +1248,31 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Pide al servidor que nos liste los archivos del directorio actual y los
+     * muestra por la interfaz.
+     */
     private void dirFiles() {
-        ArrayList<String> files = con.dir();
-        if (files == null) {
+        ArrayList<String> serverFiles = con.dir();
+        if (serverFiles == null) {
             info.setText(con.getMessage());
             timer.restart();
             return;
         }
         clearTable(fileList);
         insertOnTable(fileList, "..");
-        for (String s : files) {
+        for (String s : serverFiles) {
             insertOnTable(fileList, s);
         }
         ((DefaultTableModel) fileList.getModel()).fireTableDataChanged();
     }
 
+    /**
+     * Pide al servidor que reproduzca una canción seleccionada de la pestaña de
+     * archivos.
+     *
+     * @param song Ruta de la canción en el servidor.
+     */
     private void play(String song) {
         if (!con.play(song)) {
             info.setText(con.getMessage());
@@ -1228,6 +1282,12 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         timer.restart();
     }
 
+    /**
+     * Pide al servidor que reproduzca una canción seleccionada de la pestaña de
+     * música.
+     *
+     * @param song Índice de la canción en la lista de música.
+     */
     private void playFromMusic(int song) {
         if (!con.playFromMusic(song)) {
             info.setText(con.getMessage());
@@ -1237,6 +1297,12 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         timer.restart();
     }
 
+    /**
+     * Pide al servidor que reproduzca una canción seleccionada de la pestaña de
+     * lista de reproducción.
+     *
+     * @param song Índice de la canción en la lista de reproducción.
+     */
     private void playFromRepr(int song) {
         if (!con.playFromRepr(song)) {
             info.setText(con.getMessage());
@@ -1246,6 +1312,12 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         timer.restart();
     }
 
+    /**
+     * Recibe la lista de toda la música disponible en el servidor y la muestra
+     * en la pestaña "Música".
+     *
+     * @param _m Lista de música del servidor.
+     */
     public void setMusicList(ArrayList<String> _m) {
         for (String s : _m) {
             insertOnTable(musicList, s.substring(s.lastIndexOf("\\") + 1));
@@ -1273,7 +1345,6 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel files;
     private javax.swing.JButton findServer;
     private javax.swing.JLabel info;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -1291,6 +1362,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JPopupMenu musicMenu;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton playButton;
+    private javax.swing.JButton prevButton;
     private javax.swing.JToggleButton random;
     private javax.swing.JToggleButton repeat;
     private javax.swing.JPanel repr;

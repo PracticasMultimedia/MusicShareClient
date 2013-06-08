@@ -269,15 +269,6 @@ public class Conexion {
         return false;
     }
 
-    public void setSong(String song) {
-        int index = song.lastIndexOf("\\");
-        if (index < 0) {
-            gui.setSong(song);
-        } else {
-            gui.setSong(song.substring(index + 1));
-        }
-    }
-
     public String getConName() {
         return conName;
     }
