@@ -30,13 +30,28 @@ import musicShareClient.UDPBroadcast;
  */
 public class Cliente_Interfaz extends javax.swing.JFrame {
 
+    /*
+     * Conexión para la que funciona la interfaz y con la que se comunicará 
+     * durante el ciclo de vida de la misma.
+     */
     Conexion con;
+    /**
+     * Ventana con el ecualizador.
+     */
     Ecualizador ec;
+    /**
+     * Variable que hará desaparecer los mensajes de información cuando pase un
+     * periodo de tiempo determinado.
+     */
     Timer timer;
+    /**
+     * Colores en los que se podrán mostrar los mensajes de información.
+     */
     Color red, green, blue;
 
     /**
-     * Creates new form Client_Gui
+     * Crea una nueva interfaz. Inicializa los componentes y asigna las
+     * variables.
      */
     public Cliente_Interfaz(Conexion _con) {
         initComponents();
@@ -64,6 +79,12 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Inicializa la interfaz para que se muestre la ventana de conexión.
+     * Además, establece el icono de la aplicación, la centra en mitad de la
+     * pantalla, y añade la funcionalidades del ratón sobre las tablas de la
+     * interfaz.
+     */
     private void initInterface() {
         //Centramos la ventana en la pantalla.
         this.setLocationRelativeTo(null);

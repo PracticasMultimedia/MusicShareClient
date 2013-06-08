@@ -94,7 +94,6 @@ public class RecibirAudio extends Thread {
                     terminateJavaSound();
 
                     entry = entrada.readLine();
-                    con.setSong(entry);
                     System.out.println(entry);
                     entry = entrada.readLine();
                     System.out.println(entry);
