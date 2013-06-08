@@ -12,17 +12,17 @@ import javax.swing.JProgressBar;
  */
 public class Ecualizador_Interfaz extends javax.swing.JDialog {
 
-    
-    float max=0;
-    float min=0;
-    int turno=0;
+    float max = 0;
+    float min = 0;
+    int turno = 0;
+
     /**
      * Creates new form Ecualizador_Interfaz
      */
     public Ecualizador_Interfaz(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
     }
 
     /**
@@ -159,7 +159,7 @@ public class Ecualizador_Interfaz extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                               Ecualizador_Interfaz dialog = new Ecualizador_Interfaz(new javax.swing.JFrame(), true);
+                Ecualizador_Interfaz dialog = new Ecualizador_Interfaz(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -182,16 +182,16 @@ public class Ecualizador_Interfaz extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void printEcualizer(float[] bandas) {
-        
+
         turno++;
-        
+
 //        if(turno==4000){
 //            min=0;
 //            max=0;
 //            turno=0;
 //            
 //        }
-        
+
         for (int i = 0; i < bandas.length; i++) {
 
 //            bandas[i]=(float)Math.log(bandas[i]);
@@ -199,17 +199,17 @@ public class Ecualizador_Interfaz extends javax.swing.JDialog {
             if (bandas[i] > max) {
                 max = bandas[i];
             }
-                      
+
             if (bandas[i] < min) {
                 min = bandas[i];
             }
-            
+
         }
-        
+
 
         for (int i = 0; i < bandas.length; i++) {
-            
-            bandas[i] =(float) ((bandas[i] - min) * 100) / ((max/4)-min);
+
+            bandas[i] = (float) ((bandas[i] - min) * 100) / ((max / 4) - min);
 
         }
 
@@ -221,5 +221,15 @@ public class Ecualizador_Interfaz extends javax.swing.JDialog {
         jProgressBar6.setValue((int) bandas[5]);
         jProgressBar7.setValue((int) bandas[6]);
 
+    }
+
+    public void reset() {
+        jProgressBar1.setValue(0);
+        jProgressBar2.setValue(0);
+        jProgressBar3.setValue(0);
+        jProgressBar4.setValue(0);
+        jProgressBar5.setValue(0);
+        jProgressBar6.setValue(0);
+        jProgressBar7.setValue(0);
     }
 }

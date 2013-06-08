@@ -99,6 +99,10 @@ public class Ecualizador extends Thread {
 
     }
 
+    public void reset(){
+        gui.reset();
+    }
+    
     public void terminar() {
 
         salir = true;

@@ -1191,17 +1191,17 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         if (repr.isVisible()) {
             song = reprList.getSelectedRow();
             if (song != -1) {
-                con.playFromRepr(song);
+                playFromRepr(song);
             }
         } else if (music.isVisible()) {
             song = musicList.getSelectedRow();
             if (song != -1) {
-                con.playFromMusic(song);
+                playFromMusic(song);
             }
         } else if (files.isVisible()) {
             song = fileList.getSelectedRow();
             if (song != -1) {
-                con.play(reprList.getValueAt(song, 0).toString());
+                play(reprList.getValueAt(song, 0).toString());
             }
         }
         if (song == -1) {
@@ -1231,6 +1231,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         // TODO add your handling code here:
         con.stopMusic();
+        ec.reset();
     }//GEN-LAST:event_stopButtonActionPerformed
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1301,7 +1302,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         if (!con.play(song)) {
             info.setText(con.getMessage());
         } else {
+            info.setForeground(blue);
             info.setText("Reproduciendo " + song);
+            clearTable(reprList);
+            insertOnTable(reprList, song);
         }
         timer.restart();
     }
@@ -1316,7 +1320,10 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         if (!con.playFromMusic(song)) {
             info.setText(con.getMessage());
         } else {
+            info.setForeground(blue);
             info.setText("Reproduciendo " + musicList.getValueAt(song, 0).toString());
+            clearTable(reprList);
+            insertOnTable(reprList, musicList.getValueAt(song, 0));
         }
         timer.restart();
     }
@@ -1331,6 +1338,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         if (!con.playFromRepr(song)) {
             info.setText(con.getMessage());
         } else {
+            info.setForeground(blue);
             info.setText("Reproduciendo " + reprList.getValueAt(song, 0).toString());
         }
         timer.restart();
