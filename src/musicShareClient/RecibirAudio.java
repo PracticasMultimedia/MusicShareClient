@@ -9,14 +9,12 @@ import java.net.Socket;
 import javax.sound.sampled.*;
 
 /**
+ * Es la clase recibe el audio enviado por el servidor y lo reproduce.
  *
- * @author macosx
+ * @author Jesús Cuenca López | Adrián Luque Luque
  */
 public class RecibirAudio extends Thread {
 
-    /**
-     * @param args the command line arguments
-     */
     private static SourceDataLine mLine;
     final String HOST;
     final int PUERTO = 5001;
@@ -44,11 +42,8 @@ public class RecibirAudio extends Thread {
         con = _con;
     }
 
-//Cliente
     @Override
-    public void run() /*
-     * ejecuta este metodo para correr el cliente
-     */ {
+    public void run() {
 
         int frec = 0;
 
@@ -177,6 +172,8 @@ public class RecibirAudio extends Thread {
             /*
              * Close the line.
              */
+            mLine.close();
+            mLine = null;
         }
     }
 

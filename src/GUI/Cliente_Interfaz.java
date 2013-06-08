@@ -25,8 +25,10 @@ import javax.swing.table.DefaultTableModel;
 import musicShareClient.UDPBroadcast;
 
 /**
+ * Interfaz con la que se comunicará el usuario, y que pedirá a la clase
+ * Conexión que realice las tareas que éste comande.
  *
- * @author Jesus
+ * @author Jesús Cuenca López | Adrián Luque Luque
  */
 public class Cliente_Interfaz extends javax.swing.JFrame {
 
@@ -1058,11 +1060,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 info.setForeground(red);
                 info.setText("No se ha podido añadir la canción. Intentalo de nuevo en un momento...");
             }
+            timer.restart();
         } catch (IOException ex) {
             info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
-        timer.restart();
     }//GEN-LAST:event_MMaddActionPerformed
 
     private void MMplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MMplayActionPerformed
@@ -1097,6 +1099,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 info.setForeground(red);
                 info.setText("No se ha podido añadir la canción. Intentalo de nuevo en un momento...");
             }
+            timer.restart();
         } catch (IOException ex) {
             info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
@@ -1137,11 +1140,11 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
                 info.setForeground(red);
                 info.setText(con.getMessage());
             }
+            timer.restart();
         } catch (IOException ex) {
             info.setForeground(red);
             info.setText("Hubo un problema al realizar la conexión. Si persiste, reinicie el servidor.");
         }
-        timer.restart();
     }//GEN-LAST:event_maddMusicActionPerformed
 
 ////////////////////////////////////////////////////////////////////////////////

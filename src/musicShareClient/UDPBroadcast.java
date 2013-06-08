@@ -12,8 +12,12 @@ import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 
 /**
+ * Clase que realizará una inundación UDP a través de la red local para buscar
+ * Servidores disponibles. Esta es una forma más fácil de conectarse con el
+ * servidor, si necesidad de saber su dirección IP. Para ello el Servidor debe
+ * permitir realizar conexiones directas.
  *
- * @author Jesus
+ * @author Jesús Cuenca López | Adrián Luque Luque
  */
 public class UDPBroadcast extends Thread {
 
@@ -23,7 +27,6 @@ public class UDPBroadcast extends Thread {
         this.gui = _gui;
     }
 
-    //Cliente
     @Override
     public void run() {
         try (DatagramSocket sckCliente = new DatagramSocket()) {
@@ -49,7 +52,7 @@ public class UDPBroadcast extends Thread {
             String ip = pckRecibido.getAddress().toString();
             ip = ip.substring(1);
             returnIP(ip);
-            
+
         } catch (IOException ex) {
         }
 

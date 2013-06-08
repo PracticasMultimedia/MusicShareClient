@@ -20,14 +20,16 @@ import javax.sound.sampled.SourceDataLine;
 
 /**
  *
- * @author macosx
+ * Clase que establecerá la conexión y se comunicará con el Servidor, y recibirá
+ * los datos del mismo para mostrarlos en la interfaz.
+ *
+ * @author Jesús Cuenca López | Adrián Luque Luque
  */
 public class Conexion {
 
     final static String OK = "Successful";
     final static String NOK = "Not Understood";
     final int PORT = 5000;
-    
     ArrayList<String> musicList;
     boolean connected;
     BufferedReader in;
