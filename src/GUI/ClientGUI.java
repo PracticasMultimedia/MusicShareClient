@@ -1410,6 +1410,11 @@ public class ClientGUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
 
+    /**
+     * Muestra un mensaje de error cuando la conexión con el Servidor se cae, y
+     * termina la sesión, mostrando la ventana de conexión y ocultando la
+     * ventana de archivos.
+     */
     public void connectError() {
         con.desconectar();
         connInfo.setText("");
@@ -1418,6 +1423,10 @@ public class ClientGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(mainContainer, "La conexión se ha caido. Inténtalo de nuevo más tarde o comprueba el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Pide al servidor que elimine una canción de la lista de reproducción.
+     * @param song Canción que será eliminada.
+     */
     private void deleteFomRepr(int song) {
         try {
             if (con.deleteFromRepr(song)) {
@@ -1433,10 +1442,17 @@ public class ClientGUI extends javax.swing.JFrame {
         timer.restart();
     }
 
+    /**
+     * Devuelve el ecualizador de la interfaz.
+     * @return 
+     */
     public Equalizer getEcualizador() {
         return ec;
     }
 
+    /**
+     * Muestra la interfaz principal de la aplicación.
+     */
     public void showInterface() {
         showFiles.doClick();
         info.setText("");
