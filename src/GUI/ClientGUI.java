@@ -484,7 +484,7 @@ public class ClientGUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Música compartida");
+        setTitle("Music Share Client");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -541,6 +541,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        reprList.setToolTipText("");
         reprList.setComponentPopupMenu(reprMenu);
         reprList.setRowHeight(22);
         reprList.getTableHeader().setReorderingAllowed(false);
