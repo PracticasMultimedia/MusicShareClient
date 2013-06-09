@@ -197,7 +197,7 @@ public class ClientGUI extends javax.swing.JFrame {
         //Ocultamos el frame principal y mostramos el que realizará la conexión.
         this.setVisible(false);
         ConnectFrame.setVisible(true);
-        manual.doClick();
+        automatic.doClick();
 
     }
 
@@ -345,7 +345,6 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel1.setText("Dirección IP:");
 
         serverIP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        serverIP.setText("192.168.38.108");
         serverIP.setToolTipText("Escribe la dirección IP del servidor");
         serverIP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
