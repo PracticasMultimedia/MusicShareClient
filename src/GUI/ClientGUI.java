@@ -246,6 +246,7 @@ public class ClientGUI extends javax.swing.JFrame {
         reprList = new javax.swing.JTable();
         repeat = new javax.swing.JToggleButton();
         random = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
         files = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         fileList = new javax.swing.JTable();
@@ -563,6 +564,14 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cross.png"))); // NOI18N
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout reprLayout = new javax.swing.GroupLayout(repr);
         repr.setLayout(reprLayout);
         reprLayout.setHorizontalGroup(
@@ -571,21 +580,23 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reprLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(reprLayout.createSequentialGroup()
                         .addComponent(repeat)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(random)))
+                        .addComponent(random)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         reprLayout.setVerticalGroup(
             reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reprLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(reprLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(repeat)
-                    .addComponent(random)))
+                    .addComponent(random)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)))
         );
 
         repr.setBounds(0, 0, 409, 357);
@@ -1171,9 +1182,17 @@ public class ClientGUI extends javax.swing.JFrame {
     private void repeatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repeatActionPerformed
         // TODO add your handling code here:
         if (!con.repeat(repeat.isSelected())) {
+            info.setForeground(red);
             info.setText(con.getMessage());
-            timer.restart();
+        } else {
+            info.setForeground(blue);
+            if (repeat.isSelected()) {
+                info.setText("Reproducir todo activado.");
+            } else {
+                info.setText("Reproducir todo desactivado.");
+            }
         }
+        timer.restart();
     }//GEN-LAST:event_repeatActionPerformed
 
     /**
@@ -1184,9 +1203,17 @@ public class ClientGUI extends javax.swing.JFrame {
     private void randomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomActionPerformed
         // TODO add your handling code here:
         if (!con.shuffle(random.isSelected())) {
+            info.setForeground(red);
             info.setText(con.getMessage());
-            timer.restart();
+        } else {
+            info.setForeground(blue);
+            if (random.isSelected()) {
+                info.setText("Reproducción aleatoria activada");
+            } else {
+                info.setText("Reproducción aleatoria desactivada");
+            }
         }
+        timer.restart();
     }//GEN-LAST:event_randomActionPerformed
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1213,7 +1240,7 @@ public class ClientGUI extends javax.swing.JFrame {
         } else if (files.isVisible()) {
             song = fileList.getSelectedRow();
             if (song != -1) {
-                play(reprList.getValueAt(song, 0).toString());
+                play(fileList.getValueAt(song, 0).toString());
             }
         }
         if (song == -1) {
@@ -1250,6 +1277,14 @@ public class ClientGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         ec.setVisible(toggleEq.isSelected());
     }//GEN-LAST:event_toggleEqActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int song = reprList.getSelectedRow();
+        if(song != -1){
+            deleteFomRepr(song);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////  Funciones adicionales implementadas  ///////////////////////
@@ -1395,6 +1430,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JPanel files;
     private javax.swing.JButton findServer;
     private javax.swing.JLabel info;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -1443,6 +1479,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
     /**
      * Pide al servidor que elimine una canción de la lista de reproducción.
+     *
      * @param song Canción que será eliminada.
      */
     private void deleteFomRepr(int song) {
@@ -1462,7 +1499,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     /**
      * Devuelve el ecualizador de la interfaz.
-     * @return 
+     *
+     * @return
      */
     public Equalizer getEcualizador() {
         return ec;
