@@ -43,7 +43,6 @@ public class EqualizezGUI extends javax.swing.JDialog {
         jProgressBar3 = new javax.swing.JProgressBar();
         jProgressBar7 = new javax.swing.JProgressBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jProgressBar2.setBackground(new java.awt.Color(255, 255, 255));
@@ -185,16 +184,7 @@ public class EqualizezGUI extends javax.swing.JDialog {
 
         turno++;
 
-//        if(turno==4000){
-//            min=0;
-//            max=0;
-//            turno=0;
-//            
-//        }
-
         for (int i = 0; i < bandas.length; i++) {
-
-//            bandas[i]=(float)Math.log(bandas[i]);
 
             if (bandas[i] > max) {
                 max = bandas[i];
@@ -203,14 +193,10 @@ public class EqualizezGUI extends javax.swing.JDialog {
             if (bandas[i] < min) {
                 min = bandas[i];
             }
-
         }
 
-
         for (int i = 0; i < bandas.length; i++) {
-
             bandas[i] = (float) ((bandas[i] - min) * 100) / ((max / 4) - min);
-
         }
 
         jProgressBar1.setValue((int) bandas[0]);
@@ -220,7 +206,6 @@ public class EqualizezGUI extends javax.swing.JDialog {
         jProgressBar5.setValue((int) bandas[4]);
         jProgressBar6.setValue((int) bandas[5]);
         jProgressBar7.setValue((int) bandas[6]);
-
     }
 
     public void reset() {

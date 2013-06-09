@@ -260,6 +260,7 @@ public class ClientGUI extends javax.swing.JFrame {
         playButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         info = new javax.swing.JLabel();
+        toggleEq = new javax.swing.JToggleButton();
 
         RMplay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/play_16.png"))); // NOI18N
         RMplay.setText("Reproducir canción");
@@ -512,7 +513,6 @@ public class ClientGUI extends javax.swing.JFrame {
 
         views.add(showFiles);
         showFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder.png"))); // NOI18N
-        showFiles.setSelected(true);
         showFiles.setToolTipText("Mostrar lista de ficheros");
         showFiles.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_prssd.png"))); // NOI18N
         showFiles.addActionListener(new java.awt.event.ActionListener() {
@@ -793,6 +793,14 @@ public class ClientGUI extends javax.swing.JFrame {
 
         info.setText(" ");
 
+        toggleEq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bands.png"))); // NOI18N
+        toggleEq.setSelected(true);
+        toggleEq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleEqActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -801,7 +809,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(toggleEq, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(showFiles)
                         .addGap(0, 0, 0)
                         .addComponent(showMusic)
@@ -809,7 +818,9 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(showRepr))
                     .addComponent(mainContainer)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -819,7 +830,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(showRepr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showMusic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showFiles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(showFiles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toggleEq, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
@@ -1234,6 +1246,11 @@ public class ClientGUI extends javax.swing.JFrame {
         ec.reset();
     }//GEN-LAST:event_stopButtonActionPerformed
 
+    private void toggleEqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleEqActionPerformed
+        // TODO add your handling code here:
+        ec.setVisible(toggleEq.isSelected());
+    }//GEN-LAST:event_toggleEqActionPerformed
+
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////  Funciones adicionales implementadas  ///////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1406,6 +1423,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton showMusic;
     private javax.swing.JToggleButton showRepr;
     private javax.swing.JButton stopButton;
+    private javax.swing.JToggleButton toggleEq;
     private javax.swing.ButtonGroup views;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>

@@ -14,9 +14,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.SourceDataLine;
 
 /**
  *
@@ -35,7 +32,7 @@ public class Connect {
     BufferedReader in;
     ClientGUI gui;
     DataOutputStream out;
-    SoundReceiver cs;
+    SoundReceiver soundReceiver;
     String name = InetAddress.getLocalHost().getHostName();
     String conName = "";
     String msg = "";
@@ -103,11 +100,11 @@ public class Connect {
             }
             gui.setMusicList(musicList);
 
-            cs = new SoundReceiver(HOST, this);
+            soundReceiver = new SoundReceiver(HOST, this);
 
-            cs.setEc(ec);
+            soundReceiver.setEc(ec);
 
-            cs.start();
+            soundReceiver.start();
 
             return true;
         }
@@ -125,9 +122,9 @@ public class Connect {
     public boolean desconectar() {
         if (connected == true) {
             try {
-                if (ia != null && cs != null) {
-                    if (cs.isAlive()) {
-                        cs.stop_();
+                if (ia != null && soundReceiver != null) {
+                    if (soundReceiver.isAlive()) {
+                        soundReceiver.stop_();
                     }
                 }
 
@@ -328,12 +325,12 @@ public class Connect {
      */
     public void stop() throws IOException {
 
-        if (ia != null && cs != null) {
-            if (cs.isAlive()) {
+        if (ia != null && soundReceiver != null) {
+            if (soundReceiver.isAlive()) {
                 out.write(("stop" + "\n").getBytes(Charset.forName("UTF-8")));
 
-                cs.stop_();
-                cs = null;
+                soundReceiver.stop_();
+                soundReceiver = null;
                 ia = null;
             }
         }
