@@ -4,7 +4,7 @@
  */
 package musicShareClient;
 
-import GUI.Cliente_Interfaz;
+import GUI.ClientGUI;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -23,18 +23,20 @@ public class UDPBroadcast extends Thread {
 
     //Interfaz que llama al hilo, para poder comunicarnos con ella tanto si se 
     //encuentra servidor como si no.
-    Cliente_Interfaz gui;
+    ClientGUI gui;
 
     /**
      * Establece la interfaz con la que se comunicará al finalizar la búsqueda.
-     * @param _gui 
+     *
+     * @param _gui
      */
-    public UDPBroadcast(Cliente_Interfaz _gui) {
+    public UDPBroadcast(ClientGUI _gui) {
         this.gui = _gui;
     }
 
     /**
-     * Inicia la inundación por la red local en busca de un Servidor que nos conteste.
+     * Inicia la inundación por la red local en busca de un Servidor que nos
+     * conteste.
      */
     @Override
     public void run() {
@@ -42,7 +44,7 @@ public class UDPBroadcast extends Thread {
         try (DatagramSocket sckCliente = new DatagramSocket()) {
             //Establecemos que sera Broadcast
             sckCliente.setBroadcast(true);
-            
+
             //Establecemos un timeout para no quedarnos esperando la respuesta 
             //un tiempo indeterminado. Si en 30s nadie contesta, daremos la 
             //búsqueda como fallida.

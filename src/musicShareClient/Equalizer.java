@@ -4,7 +4,7 @@
  */
 package musicShareClient;
 
-import GUI.Ecualizador_Interfaz;
+import GUI.EqualizezGUI;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,16 +13,16 @@ import java.util.logging.Logger;
  *
  * @author Adrián
  */
-public class Ecualizador extends Thread {
+public class Equalizer extends Thread {
 
-    Ecualizador_Interfaz gui;
+    EqualizezGUI gui;
     ArrayList<float[]> data;
     ArrayList<Integer> temp;
     boolean salir = false;
     double[] buffer;
     int turno;
 
-    public Ecualizador(Ecualizador_Interfaz _gui) {
+    public Equalizer(EqualizezGUI _gui) {
 
         gui = _gui;
         data = new ArrayList<>();
@@ -82,7 +82,7 @@ public class Ecualizador extends Thread {
                         sleep(espera);
                     }
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Ecualizador.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Equalizer.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else {
@@ -91,7 +91,7 @@ public class Ecualizador extends Thread {
                     sleep(50);
 
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Ecualizador.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Equalizer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 

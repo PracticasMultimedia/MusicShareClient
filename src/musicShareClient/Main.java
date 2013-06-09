@@ -4,7 +4,7 @@
  */
 package musicShareClient;
 
-import GUI.Cliente_Interfaz;
+import GUI.ClientGUI;
 import java.io.IOException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -16,13 +16,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Main {
 
     /**
-     * @param args the command line arguments
+     * Crea e inicializa las clases e hilos principales para poner a funcionar la aplicación.
      */
     public static void main(String[] args) {
         try {
-//            Interfaz inter = new Interfaz(new Conexion());
 
-            Conexion con = new Conexion();
+            Connect con = new Connect();
             try {
                 for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -32,7 +31,7 @@ public class Main {
                 }
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             }
-            Cliente_Interfaz inter = new Cliente_Interfaz(con);
+            ClientGUI inter = new ClientGUI(con);
             con.setGui(inter);
 
         } catch (IOException e) {

@@ -13,7 +13,7 @@ import javax.sound.sampled.*;
  *
  * @author Jesús Cuenca López | Adrián Luque Luque
  */
-public class RecibirAudio extends Thread {
+public class SoundReceiver extends Thread {
 
     private static SourceDataLine mLine;
     //Variables de control
@@ -28,18 +28,18 @@ public class RecibirAudio extends Thread {
     DataInputStream data_input;
     //Variables auxiliares
     boolean keep_going;
-    Conexion con;
-    Ecualizador ec;
+    Connect con;
+    Equalizer ec;
 
     /**
      * Crea un nuevo hilo para recibir audio, donde se inicializan la dirección
      * desde la que se escuchará.
      *
      * @param _host Dirección desde la que se escuchará.
-     * @param _con Variable de tipo Conexion con la que trabajará el hilo
+     * @param _con Variable de tipo Connect con la que trabajará el hilo
      * conjuntamente.
      */
-    public RecibirAudio(String _host, Conexion _con) {
+    public SoundReceiver(String _host, Connect _con) {
         CONTROL_HOST = _host;
         DATA_HOST = _host;
         con = _con;
@@ -49,9 +49,9 @@ public class RecibirAudio extends Thread {
      * Establece la ventana del ecualizador, para poder mandarle los datos
      * recibidos, que éste se encargará de pintar.
      *
-     * @param ec Ecualizador.
+     * @param ec Equalizer.
      */
-    public void setEc(Ecualizador ec) {
+    public void setEc(Equalizer ec) {
         this.ec = ec;
         if (!ec.isAlive()) {
             ec.start();

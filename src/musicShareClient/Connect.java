@@ -4,7 +4,7 @@
  */
 package musicShareClient;
 
-import GUI.Cliente_Interfaz;
+import GUI.ClientGUI;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import javax.sound.sampled.SourceDataLine;
  *
  * @author Jesús Cuenca López | Adrián Luque Luque
  */
-public class Conexion {
+public class Connect {
 
     final static String OK = "Successful";
     final static String NOK = "Not Understood";
@@ -33,9 +33,9 @@ public class Conexion {
     ArrayList<String> musicList;
     boolean connected;
     BufferedReader in;
-    Cliente_Interfaz gui;
+    ClientGUI gui;
     DataOutputStream out;
-    RecibirAudio cs;
+    SoundReceiver cs;
     String name = InetAddress.getLocalHost().getHostName();
     String conName = "";
     String msg = "";
@@ -49,7 +49,7 @@ public class Conexion {
      *
      * @throws UnknownHostException
      */
-    public Conexion() throws UnknownHostException {
+    public Connect() throws UnknownHostException {
         musicList = new ArrayList<>();
         udp = null;
     }
@@ -59,24 +59,24 @@ public class Conexion {
      *
      * @param gui Interfaz.
      */
-    public void setGui(Cliente_Interfaz gui) {
+    public void setGui(ClientGUI gui) {
         this.gui = gui;
     }
 
     /**
      * Solicita una conexión al servidor localizado en PORT:HOST, y definimos el
-     * Ecualizador sobre el que dibujaremos la animación mientras se reproducen
+     * Equalizer sobre el que dibujaremos la animación mientras se reproducen
      * canciones. En esta función también se establece la primera comunicación
      * para definir las variables necesarias en la interfaz la primera vez que
      * se cargue.
      *
      * @param _host Host por el que escucha el servidor.
-     * @param ec Ecualizador sobre el que trabajaremos.
+     * @param ec Equalizer sobre el que trabajaremos.
      * @return True si todo está en orden. False en caso de que haya algún
      * error.
      * @throws IOException
      */
-    public boolean conectar(String _host, Ecualizador ec) throws IOException {
+    public boolean conectar(String _host, Equalizer ec) throws IOException {
 
         if (connected == false) {
             HOST = _host;
@@ -103,7 +103,7 @@ public class Conexion {
             }
             gui.setMusicList(musicList);
 
-            cs = new RecibirAudio(HOST, this);
+            cs = new SoundReceiver(HOST, this);
 
             cs.setEc(ec);
 

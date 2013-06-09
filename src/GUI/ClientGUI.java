@@ -4,8 +4,8 @@
  */
 package GUI;
 
-import musicShareClient.Conexion;
-import musicShareClient.Ecualizador;
+import musicShareClient.Connect;
+import musicShareClient.Equalizer;
 import com.sun.org.apache.xml.internal.utils.URI;
 import java.awt.Color;
 import java.awt.Image;
@@ -30,17 +30,17 @@ import musicShareClient.UDPBroadcast;
  *
  * @author Jesús Cuenca López | Adrián Luque Luque
  */
-public class Cliente_Interfaz extends javax.swing.JFrame {
+public class ClientGUI extends javax.swing.JFrame {
 
     /*
      * Conexión para la que funciona la interfaz y con la que se comunicará 
      * durante el ciclo de vida de la misma.
      */
-    Conexion con;
+    Connect con;
     /**
      * Ventana con el ecualizador.
      */
-    Ecualizador ec;
+    Equalizer ec;
     /**
      * Variable que hará desaparecer los mensajes de información cuando pase un
      * periodo de tiempo determinado.
@@ -55,13 +55,13 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
      * Crea una nueva interfaz. Inicializa los componentes y asigna las
      * variables.
      */
-    public Cliente_Interfaz(Conexion _con) {
+    public ClientGUI(Connect _con) {
         initComponents();
 
         con = _con;
-        Ecualizador_Interfaz aux = new Ecualizador_Interfaz(this, false);
+        EqualizezGUI aux = new EqualizezGUI(this, false);
         aux.setVisible(true);
-        ec = new Ecualizador(aux);
+        ec = new Equalizer(aux);
 
         timer = new Timer(5000, new ActionListener() {
             @Override
@@ -1355,6 +1355,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
             insertOnTable(musicList, s.substring(s.lastIndexOf("\\") + 1));
         }
     }
+    //<editor-fold defaultstate="collapsed" desc="Variables de la interfaz">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame ConnectFrame;
     private javax.swing.JMenuItem FMabrir;
@@ -1407,6 +1408,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton stopButton;
     private javax.swing.ButtonGroup views;
     // End of variables declaration//GEN-END:variables
+    //</editor-fold>
 
     public void connectError() {
         con.desconectar();
@@ -1431,7 +1433,7 @@ public class Cliente_Interfaz extends javax.swing.JFrame {
         timer.restart();
     }
 
-    public Ecualizador getEcualizador() {
+    public Equalizer getEcualizador() {
         return ec;
     }
 
