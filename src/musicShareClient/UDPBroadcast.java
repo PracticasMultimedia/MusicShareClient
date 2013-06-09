@@ -21,34 +21,54 @@ import java.net.SocketTimeoutException;
  */
 public class UDPBroadcast extends Thread {
 
+    //Interfaz que llama al hilo, para poder comunicarnos con ella tanto si se 
+    //encuentra servidor como si no.
     Cliente_Interfaz gui;
 
+    /**
+     * Establece la interfaz con la que se comunicará al finalizar la búsqueda.
+     * @param _gui 
+     */
     public UDPBroadcast(Cliente_Interfaz _gui) {
         this.gui = _gui;
     }
 
+    /**
+     * Inicia la inundación por la red local en busca de un Servidor que nos conteste.
+     */
     @Override
     public void run() {
+        //Creamos un socket para comunicarnos con el servidor.
         try (DatagramSocket sckCliente = new DatagramSocket()) {
+            //Establecemos que sera Broadcast
             sckCliente.setBroadcast(true);
-            sckCliente.setSoTimeout(1000);
+            
+            //Establecemos un timeout para no quedarnos esperando la respuesta 
+            //un tiempo indeterminado. Si en 30s nadie contesta, daremos la 
+            //búsqueda como fallida.
+            sckCliente.setSoTimeout(30000);
 
             InetAddress dirIP = InetAddress.getByName("255.255.255.255");
             byte[] datosEnvio = new byte[1024];
             byte[] datosRecibidos = new byte[1024];
             datosEnvio = "MENSAJE PARA CONEXION DIRECTA".getBytes();
 
+            //Enviamos el mensaje broadcast.
             DatagramPacket pckEnvio = new DatagramPacket(datosEnvio, datosEnvio.length, dirIP, 9876);
             sckCliente.send(pckEnvio);
 
+            //Esperamos la respuesta
             DatagramPacket pckRecibido = new DatagramPacket(datosRecibidos, datosRecibidos.length);
             try {
                 sckCliente.receive(pckRecibido);
             } catch (SocketTimeoutException to) {
+                //Si transcurridos 30 segundos nadie contesta, devolvemos null
+                //para indicar que la búsqueda ha resultado fallida.
                 returnIP(null);
                 return;
             }
 
+            //Si alguien nos contesta, obtenemos su dirección IP y se la mandamos a la interfaz.
             String ip = pckRecibido.getAddress().toString();
             ip = ip.substring(1);
             returnIP(ip);
