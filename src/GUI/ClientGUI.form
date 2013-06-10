@@ -911,6 +911,7 @@
           <Image iconType="3" name="/images/bands.png"/>
         </Property>
         <Property name="selected" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" value="Mostrar/ocultar bandas de espectro"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleEqActionPerformed"/>

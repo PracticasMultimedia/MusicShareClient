@@ -806,6 +806,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         toggleEq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bands.png"))); // NOI18N
         toggleEq.setSelected(true);
+        toggleEq.setToolTipText("Mostrar/ocultar bandas de espectro");
         toggleEq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleEqActionPerformed(evt);
