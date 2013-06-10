@@ -35,7 +35,6 @@ public class Main {
             con.setGui(inter);
 
         } catch (IOException e) {
-            System.out.println("Err2or: " + e.toString() + ";" + e.getMessage());
 
         }
 

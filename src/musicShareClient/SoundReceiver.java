@@ -85,7 +85,6 @@ public class SoundReceiver extends Thread {
             //Emezamos a leer información.
             entry = control_input.readLine();
             int aux = Integer.parseInt(entry);
-            System.out.println(aux);
 
             //Tratamos la información recibida y leemos nuevos datos en caso necesario.
             while (aux != 0) {
@@ -101,16 +100,11 @@ public class SoundReceiver extends Thread {
                     terminateJavaSound();
 
                     entry = control_input.readLine();
-                    System.out.println(entry);
                     entry = control_input.readLine();
-                    System.out.println(entry);
                     sampleRate = Integer.parseInt(entry);
-                    frec = Integer.parseInt(entry);
                     entry = control_input.readLine();
-                    System.out.println(entry);
                     format = Integer.parseInt(entry);
                     entry = control_input.readLine();
-                    System.out.println(entry);
                     channels = Integer.parseInt(entry);
                     openJavaSound(sampleRate, format, channels);
 
@@ -128,7 +122,6 @@ public class SoundReceiver extends Thread {
 
         } catch (Exception e) {
             con.connectError();
-            System.out.println("Error: " + e.getMessage());
 
         }
 

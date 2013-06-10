@@ -1,6 +1,0 @@
-problemas multimedia
--Cambiar el comportamiento de un hilo dsde otro hilo, se solucionó usando bucles que podian hacerse saltar cambiando una variable desde otro hilo.
--Problemas con la codificacion de los caracteres en el envio de string por red, lo arreglamos usando UTF-8 sin cabecera.
--Conseguir los coeficientes de la FFT, para la visualizacion de las barras de sonido, tuvimos que usar una biblioteca externa.
--En la inundación UDP al principio solo conseguiamos inundar la red localhost "127.0.0.0", aqui pon tu la solucion.
--Al cerrar alguna de las dos aplicaciones se quedaba un hilo esperando, y no se cerraba, para que eso no sucediera, tuvimos que controlar todos los eventos que podían cerrar la aplicación, tales como que el usuario cierre la aplicación, problemas de red, que se cierre inesperadamente por una excepción el client o el servidor, etc.

@@ -78,7 +78,6 @@ public class Connect {
         if (connected == false) {
             HOST = _host;
             sck = new Socket(HOST, PORT);
-            System.out.println(HOST);
 
             out = new DataOutputStream(sck.getOutputStream());
             in = new BufferedReader(new InputStreamReader(sck.getInputStream()));
@@ -87,14 +86,11 @@ public class Connect {
             out.write((name + "\n").getBytes(Charset.forName("UTF-8")));
 
             connected = true;
-            System.out.println("Conectando...");
             conName = in.readLine();
 
             musicList.clear();
             String s = in.readLine();
-            System.out.println("Estableciendo music list");
             while (!s.equals(OK)) {
-                System.out.println(s);
                 musicList.add(s);
                 s = in.readLine();
             }
@@ -157,19 +153,14 @@ public class Connect {
         try {
             ArrayList<String> fich = new ArrayList<>();
 
-            if (out == null) {
-                System.out.println("aldjfadkljfañldkjfadf");
-            }
             out.write(("dir" + "\n").getBytes(Charset.forName("UTF-8")));
 
             String entry = in.readLine();
 
-            System.out.println(entry);
             while (!entry.equals("..")) {
 
                 fich.add(entry);
                 entry = in.readLine();
-                System.out.println(entry);
 
             }
 
@@ -397,7 +388,6 @@ public class Connect {
      * @throws IOException
      */
     public boolean deleteFromRepr(int song) throws IOException {
-        System.out.println(song);
         out.write(("delete \"" + song + "\"\n").getBytes(Charset.forName("UTF-8")));
         if (in.readLine().equals(OK)) {
             return true;

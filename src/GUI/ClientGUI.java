@@ -922,7 +922,6 @@ public class ClientGUI extends javax.swing.JFrame {
             autInfo.setText("Conectando...");
             findServer.setText("Conectando...");
             serverIP.setText(ip);
-            System.out.println(ip);
             conect.doClick();
         } else {
             autInfo.setText("<html>Imposible contactar con el servidor.<br>"
