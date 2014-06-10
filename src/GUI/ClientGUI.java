@@ -59,7 +59,7 @@ public class ClientGUI extends javax.swing.JFrame {
         initComponents();
 
         con = _con;
-        EqualizezGUI aux = new EqualizezGUI(this, false);
+        EqualizerGUI aux = new EqualizerGUI(this, false);
         aux.setVisible(true);
         ec = new Equalizer(aux);
 
@@ -309,7 +309,7 @@ public class ClientGUI extends javax.swing.JFrame {
         fileMenu.add(FMup);
 
         FMabrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/open.png"))); // NOI18N
-        FMabrir.setText("Abir");
+        FMabrir.setText("Abrir");
         FMabrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FMabrirActionPerformed(evt);

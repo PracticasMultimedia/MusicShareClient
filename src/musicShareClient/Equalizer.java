@@ -4,7 +4,7 @@
  */
 package musicShareClient;
 
-import GUI.EqualizezGUI;
+import GUI.EqualizerGUI;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,14 +15,14 @@ import java.util.logging.Logger;
  */
 public class Equalizer extends Thread {
     
-    EqualizezGUI gui;
+    EqualizerGUI gui;
     ArrayList<float[]> data;
     ArrayList<Integer> temp;
     boolean salir = false;
     double[] buffer;
     int turno;
     
-    public Equalizer(EqualizezGUI _gui) {
+    public Equalizer(EqualizerGUI _gui) {
         
         gui = _gui;
         data = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Equalizer extends Thread {
     public void addData(String dat, int _frec) {
         
         int n = 1024 / (_frec * 2) * 1000;
-        
+                
         
         float[] aux = new float[7];
         String[] slices = dat.split(";");

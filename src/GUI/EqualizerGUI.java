@@ -10,16 +10,16 @@ import javax.swing.JProgressBar;
  *
  * @author Adrián
  */
-public class EqualizezGUI extends javax.swing.JDialog {
+public class EqualizerGUI extends javax.swing.JDialog {
 
     float max = 0;
     float min = 0;
     int turno = 0;
 
     /**
-     * Creates new form EqualizezGUI
+     * Creates new form EqualizerGUI
      */
-    public EqualizezGUI(java.awt.Frame parent, boolean modal) {
+    public EqualizerGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -145,20 +145,20 @@ public class EqualizezGUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EqualizezGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EqualizerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EqualizezGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EqualizerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EqualizezGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EqualizerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EqualizezGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EqualizerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EqualizezGUI dialog = new EqualizezGUI(new javax.swing.JFrame(), true);
+                EqualizerGUI dialog = new EqualizerGUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

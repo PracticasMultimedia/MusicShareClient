@@ -65,7 +65,7 @@ public class SoundReceiver extends Thread {
     @Override
     public void run() {
 
-        int frec = 0;
+        int frec = 100;
 
         try {
             keep_going = true;
